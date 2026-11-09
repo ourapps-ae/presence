@@ -1,0 +1,202 @@
+{
+  "format": 1,
+  "kind": "component",
+  "identity": {
+    "name": "ourapps-ae/presence",
+    "version": "0.3.0",
+    "sourceRevision": "19905b75dbea89fbfd424d67fe26c81aaed0e018",
+    "sourceTreeDigest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "licenceStatus": "deferred"
+  },
+  "facilities": [
+    {
+      "id": "presence",
+      "description": "Present and absent tracking with pause and abandon rules"
+    }
+  ],
+  "documents": {
+    "contract": "CONTRACT.md",
+    "interfaces": [
+      "interfaces/presence.json",
+      "interfaces/required/guest-identity.json",
+      "suitability.json"
+    ],
+    "examples": [
+      "examples/consumer.ts"
+    ],
+    "licenceNotice": "LICENCE"
+  },
+  "collect": [
+    {
+      "id": "awayAfterSeconds",
+      "type": "integer",
+      "grammar": "integer",
+      "required": false,
+      "secret": false,
+      "default": 30
+    },
+    {
+      "id": "dropAfterSeconds",
+      "type": "integer",
+      "grammar": "integer",
+      "required": false,
+      "secret": false,
+      "default": 1800
+    },
+    {
+      "id": "hostAbsentRule",
+      "type": "string",
+      "grammar": "identifier",
+      "required": false,
+      "secret": false,
+      "default": "pause"
+    }
+  ],
+  "files": [
+    {
+      "path": "CONTRACT.md",
+      "executable": false
+    },
+    {
+      "path": "INSTRUCTIONS.md",
+      "executable": false
+    },
+    {
+      "path": "LICENCE",
+      "executable": false
+    },
+    {
+      "path": "SOURCE.md",
+      "executable": false
+    },
+    {
+      "path": "examples/consumer.ts",
+      "executable": false
+    },
+    {
+      "path": "implementation/server/presence.ts",
+      "executable": false
+    },
+    {
+      "path": "interfaces/presence.json",
+      "executable": false
+    },
+    {
+      "path": "interfaces/required/guest-identity.json",
+      "executable": false
+    },
+    {
+      "path": "suitability.json",
+      "executable": false
+    },
+    {
+      "path": "tests/server.test.ts",
+      "executable": false
+    },
+    {
+      "path": "tools.lock.json",
+      "executable": false
+    },
+    {
+      "path": "visual/definition.json",
+      "executable": false
+    },
+    {
+      "path": "visual/examples/connected.json",
+      "executable": false
+    },
+    {
+      "path": "visual/output/connected.png",
+      "executable": false
+    },
+    {
+      "path": "visual/output/connected.svg",
+      "executable": false
+    },
+    {
+      "path": "visual/output/description.md",
+      "executable": false
+    }
+  ],
+  "artefacts": [
+    {
+      "source": "implementation/server/presence.ts",
+      "destination": "components/presence/server/presence.ts",
+      "template": false,
+      "executable": false
+    }
+  ],
+  "dependencies": [],
+  "provides": [
+    {
+      "id": "presence",
+      "type": "ae/presence",
+      "version": "1.0.0",
+      "path": "interfaces/presence.json"
+    }
+  ],
+  "requires": [
+    {
+      "id": "guest-identity",
+      "type": "ae/guest-identity",
+      "version": "1.0.0",
+      "path": "interfaces/required/guest-identity.json"
+    }
+  ],
+  "visual": {
+    "definition": "visual/definition.json",
+    "examples": [
+      "visual/examples/connected.json"
+    ],
+    "outputs": [
+      "visual/output/connected.svg",
+      "visual/output/connected.png"
+    ],
+    "descriptions": [
+      "visual/output/description.md"
+    ]
+  },
+  "capabilities": {
+    "hosts": [],
+    "secrets": [],
+    "writes": [
+      "components/presence/server/presence.ts"
+    ]
+  },
+  "infrastructure": {
+    "accounts": [],
+    "costStatus": "unmeasured",
+    "deployedReason": "Local library; the state is held and persisted by the caller. No service is deployed by this package."
+  },
+  "verification": [
+    {
+      "id": "server",
+      "root": "package",
+      "argv": [
+        "node",
+        "--test",
+        "tests/server.test.ts"
+      ],
+      "cwd": ".",
+      "prepare": [],
+      "tools": {
+        "node": "26.5.0"
+      },
+      "fixtures": [
+        "examples/consumer.ts"
+      ],
+      "locks": [
+        "tools.lock.json"
+      ],
+      "network": false,
+      "timeoutSeconds": 120,
+      "expectedExit": 0,
+      "scope": "required-local",
+      "requirements": []
+    }
+  ],
+  "upgrade": {
+    "policy": "patch",
+    "migration": "files-only"
+  }
+}

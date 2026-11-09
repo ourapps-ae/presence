@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "id": "presence-connected",
+  "title": "Presence: connected consumer",
+  "status": "example",
+  "view": "component",
+  "focus": "component",
+  "definitions": [
+    {
+      "id": "ourapps-ae.presence",
+      "name": "Presence",
+      "kind": "component",
+      "status": "example",
+      "package": "ourapps-ae/presence",
+      "version": "0.3.0",
+      "ports": [
+        {
+          "id": "guest-identity",
+          "name": "Guest identity",
+          "direction": "input",
+          "kind": "interface",
+          "type": "ae/guest-identity",
+          "version": "1.0.0",
+          "required": true,
+          "cardinality": "one"
+        },
+        {
+          "id": "presence",
+          "name": "Presence",
+          "direction": "output",
+          "kind": "interface",
+          "type": "ae/presence",
+          "version": "1.0.0"
+        }
+      ],
+      "settings": [
+        {
+          "id": "awayAfterSeconds",
+          "name": "Awayafterseconds",
+          "type": "number",
+          "required": false,
+          "secret": false,
+          "default": 30
+        },
+        {
+          "id": "dropAfterSeconds",
+          "name": "Dropafterseconds",
+          "type": "number",
+          "required": false,
+          "secret": false,
+          "default": 1800
+        },
+        {
+          "id": "hostAbsentRule",
+          "name": "Hostabsentrule",
+          "type": "string",
+          "required": false,
+          "secret": false,
+          "default": "pause"
+        }
+      ]
+    },
+    {
+      "id": "consumer",
+      "name": "Example application consumer",
+      "kind": "application",
+      "status": "example",
+      "revision": "0.1.0",
+      "ports": [
+        {
+          "id": "presence",
+          "name": "Presence",
+          "direction": "input",
+          "kind": "interface",
+          "type": "ae/presence",
+          "version": "1.0.0",
+          "required": true,
+          "cardinality": "one"
+        },
+        {
+          "id": "guest-identity",
+          "name": "Guest identity",
+          "direction": "output",
+          "kind": "interface",
+          "type": "ae/guest-identity",
+          "version": "1.0.0"
+        }
+      ],
+      "settings": []
+    }
+  ],
+  "instances": [
+    {
+      "id": "component",
+      "name": "Presence",
+      "definition": "ourapps-ae.presence",
+      "configuration": {}
+    },
+    {
+      "id": "consumer",
+      "name": "Example consumer",
+      "definition": "consumer",
+      "configuration": {}
+    }
+  ],
+  "connections": [
+    {
+      "source": {
+        "instance": "component",
+        "port": "presence"
+      },
+      "target": {
+        "instance": "consumer",
+        "port": "presence"
+      }
+    },
+    {
+      "source": {
+        "instance": "consumer",
+        "port": "guest-identity"
+      },
+      "target": {
+        "instance": "component",
+        "port": "guest-identity"
+      }
+    }
+  ]
+}

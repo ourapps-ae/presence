@@ -1,0 +1,454 @@
+{
+  "id": "presence",
+  "type": "ae/presence",
+  "version": "1.0.0",
+  "operations": {
+    "createPresence": {
+      "arguments": [
+        "hostId:string|null"
+      ],
+      "returns": "PresenceState"
+    },
+    "addParticipant": {
+      "arguments": [
+        "state:PresenceState",
+        "who:{id:string,automatic?:boolean,counts?:boolean}",
+        "now:integer"
+      ],
+      "returns": "PresenceState"
+    },
+    "removeParticipant": {
+      "arguments": [
+        "state:PresenceState",
+        "id:string"
+      ],
+      "returns": "PresenceState"
+    },
+    "setHost": {
+      "arguments": [
+        "state:PresenceState",
+        "hostId:string|null"
+      ],
+      "returns": "PresenceState"
+    },
+    "setCounts": {
+      "arguments": [
+        "state:PresenceState",
+        "id:string",
+        "counts:boolean"
+      ],
+      "returns": "PresenceState"
+    },
+    "setManualPause": {
+      "arguments": [
+        "state:PresenceState",
+        "on:boolean",
+        "now?:integer"
+      ],
+      "returns": "PresenceState (without now, pausedSince is filled in by the next refresh)"
+    },
+    "seen": {
+      "arguments": [
+        "state:PresenceState",
+        "id:string",
+        "now:integer"
+      ],
+      "returns": "PresenceState"
+    },
+    "setLive": {
+      "arguments": [
+        "state:PresenceState",
+        "id:string",
+        "live:boolean",
+        "now:integer"
+      ],
+      "returns": "PresenceState"
+    },
+    "away": {
+      "arguments": [
+        "state:PresenceState",
+        "id:string"
+      ],
+      "returns": "PresenceState"
+    },
+    "recordMiss": {
+      "arguments": [
+        "state:PresenceState",
+        "id:string"
+      ],
+      "returns": "PresenceState"
+    },
+    "refresh": {
+      "arguments": [
+        "state:PresenceState",
+        "now:integer",
+        "settings:PresenceSettings",
+        "active:boolean"
+      ],
+      "returns": "PresenceState"
+    },
+    "isPaused": {
+      "arguments": [
+        "state:PresenceState"
+      ],
+      "returns": "boolean"
+    },
+    "pauseReasons": {
+      "arguments": [
+        "state:PresenceState"
+      ],
+      "returns": "('hostAbsent'|'allOffline'|'manual')[]"
+    },
+    "abandoned": {
+      "arguments": [
+        "state:PresenceState",
+        "now:integer",
+        "settings:PresenceSettings"
+      ],
+      "returns": "boolean"
+    },
+    "nextCheck": {
+      "arguments": [
+        "state:PresenceState",
+        "settings:PresenceSettings"
+      ],
+      "returns": "integer|null"
+    },
+    "silentIds": {
+      "arguments": [
+        "state:PresenceState",
+        "now:integer",
+        "olderThanSeconds:integer"
+      ],
+      "returns": "string[]"
+    },
+    "absentIds": {
+      "arguments": [
+        "state:PresenceState"
+      ],
+      "returns": "string[]"
+    },
+    "sitOut": {
+      "arguments": [
+        "state",
+        "id:string"
+      ],
+      "returns": "PresenceState (same object when already sitting out or unknown)"
+    },
+    "returned": {
+      "arguments": [
+        "state",
+        "id:string",
+        "now:integer"
+      ],
+      "returns": "PresenceState (sitting out and misses cleared, connected, lastSeen now)"
+    },
+    "leftGame": {
+      "arguments": [
+        "state",
+        "id:string"
+      ],
+      "returns": "PresenceState (sitting out and disconnected; the person's hold ends)"
+    },
+    "isConnected": {
+      "arguments": [
+        "state",
+        "id:string"
+      ],
+      "returns": "boolean (false for an unknown id)"
+    },
+    "isLive": {
+      "arguments": [
+        "state",
+        "id:string"
+      ],
+      "returns": "boolean"
+    },
+    "isSittingOut": {
+      "arguments": [
+        "state",
+        "id:string"
+      ],
+      "returns": "boolean"
+    },
+    "misses": {
+      "arguments": [
+        "state",
+        "id:string"
+      ],
+      "returns": "integer (0 for an unknown id)"
+    },
+    "lastSeen": {
+      "arguments": [
+        "state",
+        "id:string"
+      ],
+      "returns": "integer (0 for an unknown id)"
+    },
+    "isManualPause": {
+      "arguments": [
+        "state"
+      ],
+      "returns": "boolean"
+    },
+    "pausedSince": {
+      "arguments": [
+        "state"
+      ],
+      "returns": "integer|null (wall time the activity first paused)"
+    },
+    "setHold": {
+      "arguments": [
+        "state",
+        "id:string",
+        "kind:'look'|'learn'|null",
+        "context:{running:boolean,roundOver:boolean}"
+      ],
+      "returns": "PresenceState (the one record of who holds the clock; a person only, while running, a look only while a result shows; the same object when nothing changes)"
+    },
+    "isHeld": {
+      "arguments": [
+        "state"
+      ],
+      "returns": "boolean"
+    },
+    "holds": {
+      "arguments": [
+        "state"
+      ],
+      "returns": "{playerId:string,kind:'look'|'learn'}[] in the order taken"
+    },
+    "restart": {
+      "arguments": [
+        "state",
+        "keepIds:string[]"
+      ],
+      "returns": "PresenceState (those participants kept with sitting out and misses cleared; no pauses or holds)"
+    },
+    "refreshFor": {
+      "arguments": [
+        "state",
+        "now:integer",
+        "settings:PresenceSettings",
+        "context:{hostId:string|null,running:boolean,roundOver:boolean,activeIds:string[]}"
+      ],
+      "returns": "PresenceState (silence rule, holds ended when not running or the person is gone or a look has no result, pause flags from the host and activeIds while running)"
+    },
+    "nextSilence": {
+      "arguments": [
+        "state",
+        "settings?:PresenceSettings"
+      ],
+      "returns": "integer|null (wall time the silence rule next marks someone absent; unlike nextCheck it leaves out the drop period)"
+    },
+    "validateSettings": {
+      "arguments": [
+        "settings?:Partial<PresenceSettings>"
+      ],
+      "returns": "PresenceSettings (RangeError on nonsense)"
+    }
+  },
+  "types": {
+    "PresenceSettings": "{awayAfterSeconds:integer,dropAfterSeconds:integer,hostAbsentRule:'pause'|'continue'}",
+    "Participant": "{id:string,automatic:boolean,counts:boolean,connected:boolean,live:boolean,lastSeen:integer,misses:integer,sittingOut:boolean}",
+    "PresenceState": "{participants:Participant[],hostId:string|null,pause:{hostAbsent:boolean,allOffline:boolean,manual:boolean},pausedSince:integer|null,holds:{playerId:string,kind:'look'|'learn'}[]}",
+    "events": "A request from a participant: seen. A live connection opening or closing: setLive. The application going to the background: away. Time passing: refresh.",
+    "Hold": "{playerId:string,kind:'look'|'learn'}"
+  },
+  "notes": "Participant ids are plain strings (the ids guest-identity issues). Presence is the one owner of pause and hold state: pauses (hostAbsent, allOffline, manual) and holds (look, learn) live here, and an engine passes game-clock run flags derived from them. createPresenceApi(settings) returns the object an engine calls (engineLayer below), with the away and drop settings bound.",
+  "construction": {
+    "createPresenceApi": {
+      "arguments": [
+        "settings?:Partial<PresenceSettings>"
+      ],
+      "returns": "PresenceApi (the engineLayer operations, plus settings)"
+    }
+  },
+  "engineLayer": {
+    "notes": "The operations a turn engine calls, bound to the settings given to createPresenceApi. Operations that change nothing return the same object they were given. Same names and argument lists as the module functions above, except create, register, unregister, refresh and nextWake.",
+    "operations": {
+      "create": {
+        "arguments": [],
+        "returns": "PresenceState"
+      },
+      "register": {
+        "arguments": [
+          "state",
+          "id:string",
+          "now:integer",
+          "kind:'person'|'computer'"
+        ],
+        "returns": "PresenceState (a computer is automatic: never absent)"
+      },
+      "unregister": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "PresenceState (also ends their hold)"
+      },
+      "restart": {
+        "arguments": [
+          "state",
+          "keepIds:string[]"
+        ],
+        "returns": "PresenceState"
+      },
+      "seen": {
+        "arguments": [
+          "state",
+          "id:string",
+          "now:integer"
+        ],
+        "returns": "PresenceState"
+      },
+      "setLive": {
+        "arguments": [
+          "state",
+          "id:string",
+          "live:boolean",
+          "now:integer"
+        ],
+        "returns": "PresenceState"
+      },
+      "away": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "PresenceState (also ends their hold)"
+      },
+      "sitOut": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "PresenceState"
+      },
+      "returned": {
+        "arguments": [
+          "state",
+          "id:string",
+          "now:integer"
+        ],
+        "returns": "PresenceState"
+      },
+      "leftGame": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "PresenceState"
+      },
+      "recordMiss": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "PresenceState"
+      },
+      "isConnected": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "boolean"
+      },
+      "isLive": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "boolean"
+      },
+      "isSittingOut": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "boolean"
+      },
+      "misses": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "integer"
+      },
+      "lastSeen": {
+        "arguments": [
+          "state",
+          "id:string"
+        ],
+        "returns": "integer"
+      },
+      "refresh": {
+        "arguments": [
+          "state",
+          "now:integer",
+          "context:{hostId:string|null,running:boolean,roundOver:boolean,activeIds:string[]}"
+        ],
+        "returns": "PresenceState (refreshFor with the bound settings)"
+      },
+      "setManualPause": {
+        "arguments": [
+          "state",
+          "on:boolean",
+          "now?:integer"
+        ],
+        "returns": "PresenceState"
+      },
+      "setHold": {
+        "arguments": [
+          "state",
+          "id:string",
+          "kind:'look'|'learn'|null",
+          "context:{running:boolean,roundOver:boolean}"
+        ],
+        "returns": "PresenceState"
+      },
+      "isPaused": {
+        "arguments": [
+          "state"
+        ],
+        "returns": "boolean (hostAbsent, allOffline or manual)"
+      },
+      "pauseReasons": {
+        "arguments": [
+          "state"
+        ],
+        "returns": "('hostAbsent'|'allOffline'|'manual')[]"
+      },
+      "isManualPause": {
+        "arguments": [
+          "state"
+        ],
+        "returns": "boolean"
+      },
+      "pausedSince": {
+        "arguments": [
+          "state"
+        ],
+        "returns": "integer|null"
+      },
+      "isHeld": {
+        "arguments": [
+          "state"
+        ],
+        "returns": "boolean"
+      },
+      "holds": {
+        "arguments": [
+          "state"
+        ],
+        "returns": "{playerId,kind}[]"
+      },
+      "nextWake": {
+        "arguments": [
+          "state"
+        ],
+        "returns": "integer|null (nextSilence with the bound settings)"
+      }
+    }
+  }
+}

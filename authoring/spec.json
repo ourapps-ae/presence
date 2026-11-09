@@ -1,0 +1,110 @@
+{
+  "name": "presence",
+  "version": "0.3.0",
+  "title": "Presence",
+  "description": "Notices absent participants and pauses or carries on by rule.",
+  "facilities": [
+    {
+      "id": "presence",
+      "description": "Present and absent tracking with pause and abandon rules"
+    }
+  ],
+  "provides": [
+    {
+      "id": "presence",
+      "type": "ae/presence",
+      "version": "1.0.0",
+      "path": "interfaces/presence.json"
+    }
+  ],
+  "requires": [
+    {
+      "id": "guest-identity",
+      "type": "ae/guest-identity",
+      "version": "1.0.0",
+      "path": "interfaces/required/guest-identity.json"
+    }
+  ],
+  "collect": [
+    {
+      "id": "awayAfterSeconds",
+      "type": "integer",
+      "grammar": "integer",
+      "required": false,
+      "secret": false,
+      "default": 30
+    },
+    {
+      "id": "dropAfterSeconds",
+      "type": "integer",
+      "grammar": "integer",
+      "required": false,
+      "secret": false,
+      "default": 1800
+    },
+    {
+      "id": "hostAbsentRule",
+      "type": "string",
+      "grammar": "identifier",
+      "required": false,
+      "secret": false,
+      "default": "pause"
+    }
+  ],
+  "platforms": [
+    "server"
+  ],
+  "tools": {
+    "node": "26.5.0"
+  },
+  "suites": [
+    {
+      "id": "server",
+      "argv": [
+        "node",
+        "--test",
+        "tests/server.test.ts"
+      ],
+      "tools": {
+        "node": "26.5.0"
+      },
+      "scope": "required-local",
+      "fixtures": [
+        "examples/consumer.ts"
+      ]
+    }
+  ],
+  "infrastructure": {
+    "accounts": [],
+    "deployedReason": "Local library; the state is held and persisted by the caller. No service is deployed by this package."
+  },
+  "text": {
+    "purpose": "`presence` tracks which participants of a shared activity are present. A participant is present while they make requests or hold a live connection; one who is silent for longer than the away period (and has no live connection) becomes absent. From who is absent it derives pause flags: the host being absent pauses the activity or not according to a rule, everyone counted being absent pauses it, and a manual pause can be set and lifted. When everyone has been absent for the drop period `abandoned` says so and the caller ends or clears the activity. All functions are pure over a plain state and take the clock as an argument. It is the one owner of pause and hold state: besides the automatic pauses, a person can sit out, leave a running activity, or hold the clock to look at a result (`look`) or read a guide (`learn`); a hold ends with its person's connection.",
+    "userInputs": "Three settings. `awayAfterSeconds` (default 30) is the silence after which a participant without a live connection is absent; it should be longer than one polling round trip. `dropAfterSeconds` (default 1800) is how long everyone counted may be absent before `abandoned` is true. `hostAbsentRule` (default `pause`) is `pause` to pause while the host is absent or `continue` to carry on without them.",
+    "integration": "The room keeps one `PresenceState` beside its activity state. `createPresenceApi(settings)` returns the object a turn engine calls, with the away and drop settings bound: `create`, `register(state, id, now, 'person'|'computer')`, `unregister`, `restart(state, keepIds)`, `seen`, `setLive`, `away`, `sitOut`, `returned`, `leftGame`, `recordMiss`, the readers `isConnected isLive isSittingOut misses lastSeen`, `refresh(state, now, {hostId, running, roundOver, activeIds})`, `setManualPause`, `setHold`, `isHeld`, `holds`, `isPaused`, `pauseReasons`, `isManualPause`, `pausedSince` and `nextWake` (the next silence deadline). Before acting the engine calls `refresh`; it then decides which clocks run (not paused and not held) and gives game-clock run flags; presence, not game-clock, records who is paused or holding. The module functions are the same without bound settings (`refreshFor`, `nextSilence`); `refresh(state, now, settings, active)` is the module function for a room with no engine. Ask `nextCheck` (or `nextWake`) for the wall time to set the room's alarm for, and `abandoned` to end an idle paused activity. Participant ids are the identities of the guest-identity component; computers are registered as automatic. `examples/consumer.ts` runs a host dropping and returning without any game.",
+    "infrastructure": "No service. State is plain data held by the caller.",
+    "verification": "Required-local: `node --test tests/server.test.ts` checks the silence boundary, live connections, returning, the host rule both ways, all-absent pausing and abandoning, participants that do not count, manual pause, the inactive mode, the next-check time, purity of every function and the example; and the engine layer: register by kind, sitting out and returning, leaving, the readers on known and unknown ids, holds (who may hold, when, ending with the connection, ending when the activity stops), refresh with an engine's context, restart, nextWake as the silence deadline only, bound settings, same-object results when nothing changes, and a state saved by 0.1.0. No Swift or Kotlin suites: the component is server-side only.",
+    "scenarios": "A phone goes to the background: the app reports `away`, the host is absent and the room pauses with `hostAbsent`. The host returns: the next request calls `seen` and the pause clears. All players close their tabs: the room pauses with `allOffline`; after the drop period the room is abandoned and cleared. With `hostAbsentRule` set to `continue` the host leaving changes nothing.",
+    "updates": "Patch updates replace files; no persisted-state migration. The state is short-lived (a room's presence flags) and is rebuilt as participants are seen again, so there is no migration.json."
+  },
+  "agentInstructions": "Select this component for any application that must pause or end an activity when people leave. Set `awayAfterSeconds` longer than the longest interval between a present client's requests, and choose the host rule. Connect the guest-identity requirement so participant ids are the identity ids. Pass the presence flags to the turn-taking engine so it stops clocks while paused.",
+  "developerInstructions": "Store the `PresenceState` with the room's other state and call `refresh` before every decision and in the room's alarm. Add each participant with `addParticipant` when they join and call `removeParticipant` when they leave. Supply no accounts or keys. With a turn engine use `createPresenceApi(settings)` and pass its results, not game-clock pause flags, to the clock: presence owns pauses and holds.",
+  "suitability": {
+    "format": 1,
+    "jobs": [
+      "presence"
+    ],
+    "profiles": [
+      {
+        "id": "any",
+        "load": {},
+        "cost": "none",
+        "regions": [
+          "any"
+        ],
+        "compliance": []
+      }
+    ],
+    "notes": "Pure functions; no provider involved."
+  }
+}
