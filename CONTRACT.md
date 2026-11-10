@@ -21,10 +21,10 @@ Dependencies: none.
 `tools.lock.json` pins verification tools: node 26.5.0. Licence wording remains deferred.
 
 ## Provided interfaces
-- `interfaces/presence.json` defines `presence` (ae/presence) version 1.0.0.
+- `interfaces/presence.json` defines `presence` (ae/presence) version 1.0.0 as an OpenRPC 1.3.2 document: one method per exported function of `server/presence.ts` and one `PresenceApi.*` method per function of the object `createPresenceApi` returns, with `PresenceState`, `PresenceSettings` and the other types as JSON Schema 2020-12; `validateSettings` and `createPresenceApi` list the `RangeError` they throw.
 
 ## Required interfaces
-- `guest-identity` (ae/guest-identity) version 1.0.0, supplied by the recipe or application.
+- `guest-identity` (ae/guest-identity) version 1.0.0, supplied by the recipe or application; `interfaces/required-guest-identity.json` is a copy of guest-identity's interface document.
 
 ## Integration
 The room keeps one `PresenceState` beside its activity state. `createPresenceApi(settings)` returns the object a turn engine calls, with the away and drop settings bound: `create`, `register(state, id, now, 'person'|'computer')`, `unregister`, `restart(state, keepIds)`, `seen`, `setLive`, `away`, `sitOut`, `returned`, `leftGame`, `recordMiss`, the readers `isConnected isLive isSittingOut misses lastSeen`, `refresh(state, now, {hostId, running, roundOver, activeIds})`, `setManualPause`, `setHold`, `isHeld`, `holds`, `isPaused`, `pauseReasons`, `isManualPause`, `pausedSince` and `nextWake` (the next silence deadline). Before acting the engine calls `refresh`; it then decides which clocks run (not paused and not held) and gives game-clock run flags; presence, not game-clock, records who is paused or holding. The module functions are the same without bound settings (`refreshFor`, `nextSilence`); `refresh(state, now, settings, active)` is the module function for a room with no engine. Ask `nextCheck` (or `nextWake`) for the wall time to set the room's alarm for, and `abandoned` to end an idle paused activity. Participant ids are the identities of the guest-identity component; computers are registered as automatic. `examples/consumer.ts` runs a host dropping and returning without any game.

@@ -3,7 +3,7 @@
 ## For the agent
 Select this component for any application that must pause or end an activity when people leave. Set `awayAfterSeconds` longer than the longest interval between a present client's requests, and choose the host rule. Connect the guest-identity requirement so participant ids are the identity ids. Pass the presence flags to the turn-taking engine so it stops clocks while paused.
 
-- Select package `ourapps-ae/presence` version `0.3.0`.
+- Select package `ourapps-ae/presence` version `0.4.0`.
 - Settings to configure:
   - `awayAfterSeconds` (integer; optional; default `30`)
   - `dropAfterSeconds` (integer; optional; default `1800`)

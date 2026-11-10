@@ -1,161 +1,12 @@
 {
-  "format": 1,
-  "kind": "component",
-  "identity": {
-    "name": "ourapps-ae/presence",
-    "version": "0.3.0",
-    "sourceRevision": "19905b75dbea89fbfd424d67fe26c81aaed0e018",
-    "sourceTreeDigest": "0000000000000000000000000000000000000000000000000000000000000000",
-    "licenceStatus": "deferred"
-  },
-  "facilities": [
-    {
-      "id": "presence",
-      "description": "Present and absent tracking with pause and abandon rules"
-    }
-  ],
-  "documents": {
-    "contract": "CONTRACT.md",
-    "interfaces": [
-      "interfaces/presence.json",
-      "interfaces/required/guest-identity.json",
-      "suitability.json"
-    ],
-    "examples": [
-      "examples/consumer.ts"
-    ],
-    "licenceNotice": "LICENCE"
-  },
-  "collect": [
-    {
-      "id": "awayAfterSeconds",
-      "type": "integer",
-      "grammar": "integer",
-      "required": false,
-      "secret": false,
-      "default": 30
-    },
-    {
-      "id": "dropAfterSeconds",
-      "type": "integer",
-      "grammar": "integer",
-      "required": false,
-      "secret": false,
-      "default": 1800
-    },
-    {
-      "id": "hostAbsentRule",
-      "type": "string",
-      "grammar": "identifier",
-      "required": false,
-      "secret": false,
-      "default": "pause"
-    }
-  ],
-  "files": [
-    {
-      "path": "CONTRACT.md",
-      "executable": false
-    },
-    {
-      "path": "INSTRUCTIONS.md",
-      "executable": false
-    },
-    {
-      "path": "LICENCE",
-      "executable": false
-    },
-    {
-      "path": "SOURCE.md",
-      "executable": false
-    },
-    {
-      "path": "examples/consumer.ts",
-      "executable": false
-    },
-    {
-      "path": "implementation/server/presence.ts",
-      "executable": false
-    },
-    {
-      "path": "interfaces/presence.json",
-      "executable": false
-    },
-    {
-      "path": "interfaces/required/guest-identity.json",
-      "executable": false
-    },
-    {
-      "path": "suitability.json",
-      "executable": false
-    },
-    {
-      "path": "tests/server.test.ts",
-      "executable": false
-    },
-    {
-      "path": "tools.lock.json",
-      "executable": false
-    },
-    {
-      "path": "visual/definition.json",
-      "executable": false
-    },
-    {
-      "path": "visual/examples/connected.json",
-      "executable": false
-    },
-    {
-      "path": "visual/output/connected.png",
-      "executable": false
-    },
-    {
-      "path": "visual/output/connected.svg",
-      "executable": false
-    },
-    {
-      "path": "visual/output/description.md",
-      "executable": false
-    }
-  ],
   "artefacts": [
     {
-      "source": "implementation/server/presence.ts",
       "destination": "components/presence/server/presence.ts",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/server/presence.ts",
+      "template": false
     }
   ],
-  "dependencies": [],
-  "provides": [
-    {
-      "id": "presence",
-      "type": "ae/presence",
-      "version": "1.0.0",
-      "path": "interfaces/presence.json"
-    }
-  ],
-  "requires": [
-    {
-      "id": "guest-identity",
-      "type": "ae/guest-identity",
-      "version": "1.0.0",
-      "path": "interfaces/required/guest-identity.json"
-    }
-  ],
-  "visual": {
-    "definition": "visual/definition.json",
-    "examples": [
-      "visual/examples/connected.json"
-    ],
-    "outputs": [
-      "visual/output/connected.svg",
-      "visual/output/connected.png"
-    ],
-    "descriptions": [
-      "visual/output/description.md"
-    ]
-  },
   "capabilities": {
     "hosts": [],
     "secrets": [],
@@ -163,40 +14,193 @@
       "components/presence/server/presence.ts"
     ]
   },
+  "collect": [
+    {
+      "default": 30,
+      "grammar": "integer",
+      "id": "awayAfterSeconds",
+      "required": false,
+      "secret": false,
+      "type": "integer"
+    },
+    {
+      "default": 1800,
+      "grammar": "integer",
+      "id": "dropAfterSeconds",
+      "required": false,
+      "secret": false,
+      "type": "integer"
+    },
+    {
+      "default": "pause",
+      "grammar": "identifier",
+      "id": "hostAbsentRule",
+      "required": false,
+      "secret": false,
+      "type": "string"
+    }
+  ],
+  "dependencies": [],
+  "documents": {
+    "contract": "CONTRACT.md",
+    "examples": [
+      "examples/consumer.ts"
+    ],
+    "interfaces": [
+      "interfaces/presence.json",
+      "interfaces/required-guest-identity.json",
+      "suitability.json"
+    ],
+    "licenceNotice": "LICENCE"
+  },
+  "facilities": [
+    {
+      "description": "Present and absent tracking with pause and abandon rules",
+      "id": "presence"
+    }
+  ],
+  "files": [
+    {
+      "executable": false,
+      "path": "CONTRACT.md"
+    },
+    {
+      "executable": false,
+      "path": "INSTRUCTIONS.md"
+    },
+    {
+      "executable": false,
+      "path": "LICENCE"
+    },
+    {
+      "executable": false,
+      "path": "NOTICE"
+    },
+    {
+      "executable": false,
+      "path": "SOURCE.md"
+    },
+    {
+      "executable": false,
+      "path": "examples/consumer.ts"
+    },
+    {
+      "executable": false,
+      "path": "implementation/server/presence.ts"
+    },
+    {
+      "executable": false,
+      "path": "interfaces/presence.json"
+    },
+    {
+      "executable": false,
+      "path": "interfaces/required-guest-identity.json"
+    },
+    {
+      "executable": false,
+      "path": "suitability.json"
+    },
+    {
+      "executable": false,
+      "path": "tests/server.test.ts"
+    },
+    {
+      "executable": false,
+      "path": "tools.lock.json"
+    },
+    {
+      "executable": false,
+      "path": "visual/definition.json"
+    },
+    {
+      "executable": false,
+      "path": "visual/examples/connected.json"
+    },
+    {
+      "executable": false,
+      "path": "visual/output/connected.png"
+    },
+    {
+      "executable": false,
+      "path": "visual/output/connected.svg"
+    },
+    {
+      "executable": false,
+      "path": "visual/output/description.md"
+    }
+  ],
+  "format": 1,
+  "identity": {
+    "licence": "Apache-2.0",
+    "name": "ourapps-ae/presence",
+    "sourceRevision": "19905b75dbea89fbfd424d67fe26c81aaed0e018",
+    "sourceTreeDigest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "version": "0.4.0"
+  },
   "infrastructure": {
     "accounts": [],
     "costStatus": "unmeasured",
     "deployedReason": "Local library; the state is held and persisted by the caller. No service is deployed by this package."
   },
+  "kind": "component",
+  "provides": [
+    {
+      "id": "presence",
+      "path": "interfaces/presence.json",
+      "type": "ae/presence",
+      "version": "1.0.0"
+    }
+  ],
+  "requires": [
+    {
+      "id": "guest-identity",
+      "path": "interfaces/required-guest-identity.json",
+      "type": "ae/guest-identity",
+      "version": "1.0.0"
+    }
+  ],
+  "upgrade": {
+    "migration": "files-only",
+    "policy": "patch"
+  },
   "verification": [
     {
-      "id": "server",
-      "root": "package",
       "argv": [
         "node",
         "--test",
         "tests/server.test.ts"
       ],
       "cwd": ".",
-      "prepare": [],
-      "tools": {
-        "node": "26.5.0"
-      },
+      "expectedExit": 0,
       "fixtures": [
         "examples/consumer.ts"
       ],
+      "id": "server",
       "locks": [
         "tools.lock.json"
       ],
       "network": false,
-      "timeoutSeconds": 120,
-      "expectedExit": 0,
+      "prepare": [],
+      "requirements": [],
+      "root": "package",
       "scope": "required-local",
-      "requirements": []
+      "timeoutSeconds": 120,
+      "tools": {
+        "node": "26.5.0"
+      }
     }
   ],
-  "upgrade": {
-    "policy": "patch",
-    "migration": "files-only"
+  "visual": {
+    "definition": "visual/definition.json",
+    "descriptions": [
+      "visual/output/description.md"
+    ],
+    "examples": [
+      "visual/examples/connected.json"
+    ],
+    "outputs": [
+      "visual/output/connected.svg",
+      "visual/output/connected.png"
+    ]
   }
 }

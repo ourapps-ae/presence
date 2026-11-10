@@ -1,6 +1,6 @@
 {
   "name": "presence",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "title": "Presence",
   "description": "Notices absent participants and pauses or carries on by rule.",
   "facilities": [
@@ -22,7 +22,7 @@
       "id": "guest-identity",
       "type": "ae/guest-identity",
       "version": "1.0.0",
-      "path": "interfaces/required/guest-identity.json"
+      "path": "interfaces/required-guest-identity.json"
     }
   ],
   "collect": [
