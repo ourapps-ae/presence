@@ -18,7 +18,7 @@ Three settings. `awayAfterSeconds` (default 30) is the silence after which a par
 - `implementation/server/presence.ts` -> `components/presence/server/presence.ts`
 
 Dependencies: none.
-`tools.lock.json` pins verification tools: node 26.5.0. Licence wording remains deferred.
+`tools.lock.json` pins verification tools: node 26.5. Licence wording remains deferred.
 
 ## Provided interfaces
 - `interfaces/presence.json` defines `presence` (ae/presence) version 1.0.0 as an OpenRPC 1.3.2 document: one method per exported function of `server/presence.ts` and one `PresenceApi.*` method per function of the object `createPresenceApi` returns, with `PresenceState`, `PresenceSettings` and the other types as JSON Schema 2020-12; `validateSettings` and `createPresenceApi` list the `RangeError` they throw.
@@ -38,7 +38,7 @@ No service. State is plain data held by the caller.
 ## Verification
 Required-local: `node --test tests/server.test.ts` checks the silence boundary, live connections, returning, the host rule both ways, all-absent pausing and abandoning, participants that do not count, manual pause, the inactive mode, the next-check time, purity of every function and the example; and the engine layer: register by kind, sitting out and returning, leaving, the readers on known and unknown ids, holds (who may hold, when, ending with the connection, ending when the activity stops), refresh with an engine's context, restart, nextWake as the silence deadline only, bound settings, same-object results when nothing changes, and a state saved by 0.1.0. No Swift or Kotlin suites: the component is server-side only.
 
-- `node --test tests/server.test.ts` (server, required-local; tools: node 26.5.0)
+- `node --test tests/server.test.ts` (server, required-local; tools: node 26.5)
 
 ## Scenarios and presentation
 A phone goes to the background: the app reports `away`, the host is absent and the room pauses with `hostAbsent`. The host returns: the next request calls `seen` and the pause clears. All players close their tabs: the room pauses with `allOffline`; after the drop period the room is abandoned and cleared. With `hostAbsentRule` set to `continue` the host leaving changes nothing.
