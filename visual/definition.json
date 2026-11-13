@@ -4,7 +4,7 @@
   "kind": "component",
   "status": "example",
   "package": "ourapps-ae/presence",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "ports": [
     {
       "id": "guest-identity",
