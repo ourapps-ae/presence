@@ -1,6 +1,12 @@
 {
   "artefacts": [
     {
+      "destination": "components/presence/server/index.ts",
+      "executable": false,
+      "source": "implementation/server/index.ts",
+      "template": false
+    },
+    {
       "destination": "components/presence/server/presence.ts",
       "executable": false,
       "source": "implementation/server/presence.ts",
@@ -11,6 +17,7 @@
     "hosts": [],
     "secrets": [],
     "writes": [
+      "components/presence/server/index.ts",
       "components/presence/server/presence.ts"
     ]
   },
@@ -83,6 +90,10 @@
     {
       "executable": false,
       "path": "examples/consumer.ts"
+    },
+    {
+      "executable": false,
+      "path": "implementation/server/index.ts"
     },
     {
       "executable": false,
