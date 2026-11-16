@@ -1,6 +1,6 @@
 {
   "name": "presence",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "title": "Presence",
   "description": "Notices absent participants and pauses or carries on by rule.",
   "facilities": [
@@ -106,5 +106,137 @@
       }
     ],
     "notes": "Pure functions; no provider involved."
+  },
+  "classes": [
+    {
+      "reference": {
+        "name": "ourapps-ae/presence-class",
+        "version": "1.0.0",
+        "digest": "47a75d759f681992a821410a224ed224b3886da4a9b55d933c5495d75a33df58"
+      },
+      "descriptor": {
+        "format": 1,
+        "name": "ourapps-ae/presence-class",
+        "version": "1.0.0",
+        "provides": [
+          {
+            "type": "ae/presence",
+            "version": "1.0.0",
+            "path": "classes/presence-class/presence.json",
+            "modules": {
+              "server": [
+                "server/index.ts"
+              ]
+            }
+          }
+        ],
+        "requires": [
+          {
+            "type": "ae/guest-identity",
+            "version": "1.0.0"
+          }
+        ],
+        "settings": {
+          "type": "object",
+          "properties": {
+            "awayAfterSeconds": {
+              "type": "integer"
+            },
+            "dropAfterSeconds": {
+              "type": "integer"
+            },
+            "hostAbsentRule": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$"
+            }
+          },
+          "required": [
+            "awayAfterSeconds",
+            "dropAfterSeconds",
+            "hostAbsentRule"
+          ],
+          "additionalProperties": false
+        },
+        "inventory": [
+          {
+            "path": "classes/presence-class/check.mjs",
+            "digest": "099b88b869efea6e3c0b5fda6848c1e0362c976b90a481518fa428a6a53a31dd"
+          },
+          {
+            "path": "classes/presence-class/presence.json",
+            "digest": "fc6b1b7d3ca315a22ab0c731882ef54446499e34753a63aef2e999f8bac42e3d"
+          },
+          {
+            "path": "classes/presence-class/runtime.mjs",
+            "digest": "7440f3891614c423f74668cb5a2445fea58bbfa4d7c740c8e8a855d1d9300d43"
+          }
+        ],
+        "verification": [
+          {
+            "id": "shared",
+            "root": "package",
+            "argv": [
+              "node",
+              "classes/presence-class/check.mjs"
+            ],
+            "cwd": ".",
+            "prepare": [],
+            "tools": {
+              "node": "26.5"
+            },
+            "fixtures": [
+              "classes/presence-class/check.mjs"
+            ],
+            "locks": [],
+            "network": false,
+            "timeoutSeconds": 60,
+            "expectedExit": 0,
+            "scope": "required-local",
+            "requirements": []
+          }
+        ]
+      }
+    }
+  ],
+  "implements": [
+    {
+      "name": "ourapps-ae/presence-class",
+      "version": "1.0.0",
+      "digest": "47a75d759f681992a821410a224ed224b3886da4a9b55d933c5495d75a33df58"
+    }
+  ],
+  "upstream": [],
+  "compatibility": {
+    "runtimes": {
+      "node": ">=26.5.0 <27.0.0"
+    },
+    "frameworks": {},
+    "dependencies": [],
+    "styles": {
+      "scope": "none",
+      "namespaces": [],
+      "conflicts": []
+    }
+  },
+  "maintenance": {
+    "owners": [
+      "Level N Ltd"
+    ],
+    "contact": "https://github.com/ourapps-ae/presence/issues",
+    "repository": "https://github.com/ourapps-ae/presence",
+    "updates": {
+      "source": "https://github.com/ourapps-ae/presence/releases",
+      "strategy": "manual"
+    }
+  },
+  "supportedPlatforms": [
+    "server"
+  ],
+  "licence": "Apache-2.0",
+  "licenceFile": "LICENCE",
+  "noticeFile": "NOTICE",
+  "templates": [],
+  "modules": {
+    "server": "server/index.ts"
   }
 }

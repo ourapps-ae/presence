@@ -1,0 +1,13 @@
+import { assert, load } from './runtime.mjs';
+const m = await load('server/index.ts');
+const api = m.createPresenceApi({ awayAfterSeconds: 1 });
+const empty = api.create();
+const state = api.register(empty, 'a', 100, 'person');
+assert.equal(api.isConnected(state, 'a'), true);
+const gone = api.away(state, 'a');
+assert.equal(api.isConnected(gone, 'a'), false);
+assert.equal(api.isConnected(state, 'a'), true);
+assert.equal(api.isConnected(api.returned(gone, 'a', 200), 'a'), true);
+assert.equal(api.misses(api.recordMiss(state, 'a'), 'a'), 1);
+assert.equal(api.isPaused(api.setManualPause(state, true, 300)), true);
+assert.throws(() => m.validateSettings({ awayAfterSeconds: 0 }));
