@@ -1,6 +1,6 @@
 {
   "name": "presence",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "title": "Presence",
   "description": "Notices absent participants and pauses or carries on by rule.",
   "facilities": [
@@ -111,13 +111,17 @@
     {
       "reference": {
         "name": "ourapps-ae/presence-class",
-        "version": "1.0.0",
-        "digest": "47a75d759f681992a821410a224ed224b3886da4a9b55d933c5495d75a33df58"
+        "version": "1.1.0",
+        "digest": "7c80f0630ea3b103859c0a8ee4265042b9d1b24c567a09943e8218929252e541"
       },
       "descriptor": {
-        "format": 1,
+        "format": 2,
         "name": "ourapps-ae/presence-class",
-        "version": "1.0.0",
+        "version": "1.1.0",
+        "title": "Presence",
+        "summary": "Who is connected, away or back, and missed turns",
+        "category": "communication/presence",
+        "presentation": "none",
         "provides": [
           {
             "type": "ae/presence",
@@ -201,8 +205,8 @@
   "implements": [
     {
       "name": "ourapps-ae/presence-class",
-      "version": "1.0.0",
-      "digest": "47a75d759f681992a821410a224ed224b3886da4a9b55d933c5495d75a33df58"
+      "version": "1.1.0",
+      "digest": "7c80f0630ea3b103859c0a8ee4265042b9d1b24c567a09943e8218929252e541"
     }
   ],
   "upstream": [],
@@ -266,5 +270,11 @@
         "manual": "Without the package manager, install Node 26 from nodejs.org (the installer, or the zip or tar archive with its folder put first on PATH); on Linux also from the NodeSource repository."
       }
     ]
-  }
+  },
+  "release": {
+    "channel": "features",
+    "fixes": []
+  },
+  "images": [],
+  "vulnerabilityWaivers": []
 }
