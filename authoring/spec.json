@@ -1,6 +1,6 @@
 {
   "name": "presence",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "title": "Presence",
   "description": "Notices absent participants and pauses or carries on by rule.",
   "facilities": [
